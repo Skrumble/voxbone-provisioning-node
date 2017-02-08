@@ -3,19 +3,22 @@
 var request = require('request-promise');
 
 var _api = {
-  user: '',
-  password: '',
-  url : 'https://sandbox.voxbone.com/ws-voxbone/services/rest/'
+  	user: '',
+  	password: '',
+  	url : 'https://sandbox.voxbone.com/ws-voxbone/services/rest/'
 };
 
 var _version = module.exports.version;
 
 var Voxbone = function(opts) {
-  _api.user = opts.user;
-  _api.password = opts.password;
-  if(typeof opts.url != 'undefined'){
-    _api.url = opts.url;
-  }  
+	if (!(this instanceof Voxbone)) {
+    	return new Voxbone(opts);
+  	}
+  	_api.user = opts.user;
+  	_api.password = opts.password;
+  	if(typeof opts.url != 'undefined'){
+    	_api.url = opts.url;
+  	}  
 };
 
 Voxbone.prototype = {
