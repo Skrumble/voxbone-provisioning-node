@@ -69,6 +69,16 @@ Voxbone.prototype = {
 			resolve(sendRequest("GET", url));
 		});
 	},
+	listStates: function(countryCodeA3) {
+		return new Promise(function(resolve, reject) {
+			if (!countryCodeA3){
+				reject("countryCodeA3 is required");
+			}
+			var url = _api.url+"inventory/country"+countryCodeA3+"/state";
+
+			resolve(sendRequest("GET", url));
+		});
+	},
 	listVoiceURI: function(opts) {
 		return new Promise(function(resolve, reject) {
 			if (!opts.pageNumber || !opts.pageSize){
@@ -102,6 +112,16 @@ Voxbone.prototype = {
 			if (uri.description) body.description = uri.description;
 
 			resolve(sendRequest("PUT", url, body));
+		});
+	},
+	deleteVoiceURI: function(uriId) {
+		return new Promise(function(resolve, reject) {
+			if (!uriId){
+				reject("uriId is required");
+			}
+			var url = _api.url+"configuration/voiceuri/"+uriId;
+
+			resolve(sendRequest("DELETE", url));
 		});
 	},
 	applyConfiguration: function(config) {
