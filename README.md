@@ -3,17 +3,22 @@ The Voxbone Provisioning Node module will allow you to interface with Voxbone pr
 
 ## Instalation
 To install the Voxbone Provisioning node module and its dependencies run the following command:
+```javascript
 'npm install git+https://github.com/DanielAudino/voxbone-provisioning-node.git'
+```
 
 ## Usage
 
 ### Create the voxbone instance:
+```javascript
 var Voxbone = require('voxbone-provisioning-node')({user: '<Your Voxbone Username>', password: '<Your Voxbone Password>'})
+```
 
 ### listCountries 
 List the countries available in the Voxbone coverage.
 
 Example:
+```javascript
 Voxbone.listCountries({pageNumber:"0", pageSize:"1"})
   .then(function(countries) {
 	  console.log(countries);
@@ -21,11 +26,13 @@ Voxbone.listCountries({pageNumber:"0", pageSize:"1"})
 	.catch(function(err) {
     console.log(err);
 	});
+```
 
 ### listDid 
 List the DID's within your own inventory.
 
 Example:
+```javascript
 Voxbone.listDid({pageNumber:"0", pageSize:"1"})
   .then(function(dids) {
 	  console.log(dids);
@@ -33,3 +40,4 @@ Voxbone.listDid({pageNumber:"0", pageSize:"1"})
 	.catch(function(err) {
     console.log(err);
 	});
+```
