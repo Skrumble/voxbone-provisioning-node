@@ -1,4 +1,6 @@
-var request = require('request');
+'use strict';
+
+var request = require('request-promise');
 
 var _api = {
   login: '',
@@ -14,80 +16,85 @@ var Voxbone = function(opts) {
   if(typeof opts.url != 'undefined'){
     _api.url = opts.url;
   }  
-}; 
+};
+
 Voxbone.prototype = {
 	listDid: function(opts) {
-		if (!opts.pageNumber || !opts.pageSize){
-			return "pageNumber and pageSize are required parameters";
-		}
-		var url = _api.url+"inventory/country?pageNumber="+opts.pageNumber+"&pageSize="+opts.pageSize;
+		return new Promise(function(resolve, reject) {
+			if (!opts || !opts.pageNumber || !opts.pageSize){
+				reject("pageNumber and pageSize are required parameters");
+			}
+			var url = _api.url+"inventory/did?pageNumber="+opts.pageNumber+"&pageSize="+opts.pageSize;
 
-		if (opts.didIds) {
-			opts.didIds.forEach(function(didId) {
-				url += "&didIds="+didId;
-			});
-		}
-		if (opts.didgroupIds) {
-			opts.didgroupIds.forEach(function(didgroupId) {
-				url += "&didgroupIds="+didgroupId;
-			});
-		}
-		if (opts.e164Pattern) {
-			url += "&e164Pattern="+opts.e164Pattern;
-		}
-		if (opts.regulationAddressId) {
-			url += "&regulationAddressId="+opts.regulationAddressId;
-		}
-		if (opts.voiceUriId) {
-			url += "&voiceUriId="+opts.voiceUriId;
-		}
-		if (opts.faxUriId) {
-			url += "&faxUriId="+opts.faxUriId;
-		}
-		if (opts.smsLinkGroupId) {
-			url += "&smsLinkGroupId="+opts.smsLinkGroupId;
-		}
-		if (opts.needAddressLink) {
-			url += "&needAddressLink="+opts.needAddressLink;
-		}
-		if (opts.serviceType) {
-			url += "&serviceType="+opts.serviceType;
-		}
-		if (opts.countryCodeA3) {
-			url += "&countryCodeA3="+opts.countryCodeA3;
-		}
-		if (opts.orderReference) {
-			url += "&orderReference="+opts.orderReference;
-		}
-		if (opts.portingReference) {
-			url += "&portingReference="+opts.portingReference;
-		}
-		if (opts.deliveryId) {
-			url += "&deliveryId="+opts.deliveryId;
-		}
-		if (opts.smsOutbound) {
-			url += "&smsOutbound="+opts.smsOutbound;
-		}
-		if (opts.webRtcEnabled) {
-			url += "&webRtcEnabled="+opts.webRtcEnabled;
-		}
+			if (opts.didIds) {
+				opts.didIds.forEach(function(didId) {
+					url += "&didIds="+didId;
+				});
+			}
+			if (opts.didgroupIds) {
+				opts.didgroupIds.forEach(function(didgroupId) {
+					url += "&didgroupIds="+didgroupId;
+				});
+			}
+			if (opts.e164Pattern) {
+				url += "&e164Pattern="+opts.e164Pattern;
+			}
+			if (opts.regulationAddressId) {
+				url += "&regulationAddressId="+opts.regulationAddressId;
+			}
+			if (opts.voiceUriId) {
+				url += "&voiceUriId="+opts.voiceUriId;
+			}
+			if (opts.faxUriId) {
+				url += "&faxUriId="+opts.faxUriId;
+			}
+			if (opts.smsLinkGroupId) {
+				url += "&smsLinkGroupId="+opts.smsLinkGroupId;
+			}
+			if (opts.needAddressLink) {
+				url += "&needAddressLink="+opts.needAddressLink;
+			}
+			if (opts.serviceType) {
+				url += "&serviceType="+opts.serviceType;
+			}
+			if (opts.countryCodeA3) {
+				url += "&countryCodeA3="+opts.countryCodeA3;
+			}
+			if (opts.orderReference) {
+				url += "&orderReference="+opts.orderReference;
+			}
+			if (opts.portingReference) {
+				url += "&portingReference="+opts.portingReference;
+			}
+			if (opts.deliveryId) {
+				url += "&deliveryId="+opts.deliveryId;
+			}
+			if (opts.smsOutbound) {
+				url += "&smsOutbound="+opts.smsOutbound;
+			}
+			if (opts.webRtcEnabled) {
+				url += "&webRtcEnabled="+opts.webRtcEnabled;
+			}
 
-		return sendRequest("GET", url);
+			resolve(sendRequest("GET", url));
+		});
 	},
 	listCountries: function(opts) {
-		if (!opts.pageNumber || !opts.pageSize){
-			return "pageNumber and pageSize are required parameters";
-		}
-		var url = _api.url+"inventory/did?pageNumber="+opts.pageNumber+"&pageSize="+opts.pageSize;
+		return new Promise(function(resolve, reject) {
+			if (!opts.pageNumber || !opts.pageSize){
+				reject("pageNumber and pageSize are required parameters");
+			}
+			var url = _api.url+"inventory/country?pageNumber="+opts.pageNumber+"&pageSize="+opts.pageSize;
 
-		if (opts.countryCodeA3) {
-			url += "&countryCodeA3="+opts.countryCodeA3;
-		}
-		if (opts.didType) {
-			url += "&didType="+opts.didType;
-		}
+			if (opts.countryCodeA3) {
+				url += "&countryCodeA3="+opts.countryCodeA3;
+			}
+			if (opts.didType) {
+				url += "&didType="+opts.didType;
+			}
 
-		return sendRequest("GET", url);
+			resolve(sendRequest("GET", url));
+		});
 	},
 }
 function sendRequest(type, url, body) {
@@ -109,3 +116,5 @@ function sendRequest(type, url, body) {
 	};
 	return request(opts);
 }
+
+module.exports = Voxbone;

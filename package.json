@@ -1,10 +1,11 @@
 {
-  "name": "voxbone-node",
+  "name": "voxbone-provisioning-node",
   "version": "1.0.0",
   "description": "The Voxbone Node module will allow you to interface with Voxbone proviioning api",
   "main": "index.js",
   "author": "Daniel Audino",
   "dependencies": {
     "request": "~2.79.0",
-  },
+    "request-promise": "~4.1.1"
+  }
 }
