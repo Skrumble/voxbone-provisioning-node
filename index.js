@@ -149,8 +149,8 @@ Voxbone.prototype = {
 	},
 	applyConfiguration: function(config) {
 		return new Promise(function(resolve, reject) {
-			if (!config.didIds){
-				reject("didIds is a required parameter");
+			if (!config.didIds || !Array.isArray(config.didIds)){
+				reject("didIds is a required parameter and must be array");
 			}
 			var url = _api.url+"configuration/configuration";
 
@@ -236,7 +236,9 @@ function sendRequest(type, url, body) {
 		headers: header,
 		method: type.toUpperCase()
 	};
-	return request(opts);
+	return request(opts).catch(function(err) {
+		return err.error;
+	});
 }
 
 module.exports = Voxbone;
