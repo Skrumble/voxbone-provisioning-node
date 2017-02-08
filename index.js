@@ -11,7 +11,7 @@ var _api = {
 var _version = module.exports.version;
 
 var Voxbone = function(opts) {
-  _api.login = opts.user;
+  _api.user = opts.user;
   _api.password = opts.password;
   if(typeof opts.url != 'undefined'){
     _api.url = opts.url;
