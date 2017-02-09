@@ -186,6 +186,105 @@ Voxbone.prototype = {
 			resolve(sendRequest("POST", url, body));
 		});
 	},
+	accountBalance: function(config) {
+		return new Promise(function(resolve, reject) {
+			var url = _api.url+"ordering/accountbalance";
+
+			resolve(sendRequest("GET", url));
+		});
+	},
+	createCart: function(config) {
+		return new Promise(function(resolve, reject) {
+			var url = _api.url+"ordering/cart";
+
+			var body = {};
+
+			if (config.customerReference) body.customerReference = config.customerReference;
+			if (config.description) body.description = config.description;
+			resolve(sendRequest("PUT", url, body));
+		});
+	},
+	addToCart: function(config) {
+		return new Promise(function(resolve, reject) {
+			if (!config.cartIdentifier){
+				reject("cartIdentifier is a required parameter");
+			}
+			var url = _api.url+"ordering/cart/"+config.cartIdentifier+"/product";
+
+			var body = {};
+
+			if (config.didCartItem) body.didCartItem = config.didCartItem;
+			if (config.capacityCartItem) body.capacityCartItem = config.capacityCartItem;
+			if (config.creditPackageCartItem) body.creditPackageCartItem = config.creditPackageCartItem;
+
+			resolve(sendRequest("POST", url, body));
+		});
+	},
+	listCart: function(config) {
+		return new Promise(function(resolve, reject) {
+			if (!opts.pageNumber || !opts.pageSize){
+				reject("pageNumber and pageSize are required parameters");
+			}
+			var url = _api.url+"ordering/cart?pageNumber="+opts.pageNumber+"&pageSize="+opts.pageSize;
+
+			if (opts.cartIdentifier) url += "&cartIdentifier="+opts.cartIdentifier;
+			if (opts.reference) url += "&reference="+opts.reference;
+
+			resolve(sendRequest("GET", url));
+		});
+	},
+	removeFromCart: function(config) {
+		return new Promise(function(resolve, reject) {
+			if (!config.cartIdentifier || !config.orderProductId || !config.quantity){
+				reject("cartIdentifier, orderProductId and quantity are required parameters");
+			}
+			var url = _api.url+"ordering/cart/"+config.cartIdentifier+"/product/"+config.orderProductId;
+
+			var body = {
+				cartIdentifier: config.cartIdentifier,
+				orderProductId: config.orderProductId,
+				quantity: config.quantity
+			};
+
+			resolve(sendRequest("POST", url, body));
+		});
+	},
+	deleteCart: function(config) {
+		return new Promise(function(resolve, reject) {
+			if (!opts.cartIdentifier){
+				reject("cartIdentifier is a required parameter");
+			}
+			var url = _api.url+"ordering/cart/"+opts.cartIdentifier;
+
+			resolve(sendRequest("DELETE", url));
+		});
+	},
+	checkoutCart: function(config) {
+		return new Promise(function(resolve, reject) {
+			if (!opts.cartIdentifier){
+				reject("cartIdentifier is a required parameter");
+			}
+			var url = _api.url+"ordering/cart/"+opts.cartIdentifier+"/checkout?cartIdentifier="+opts.cartIdentifier;
+
+			resolve(sendRequest("GET", url));
+		});
+	},
+	listOrder: function(config) {
+		return new Promise(function(resolve, reject) {
+			if (!opts.pageNumber || !opts.pageSize){
+				reject("pageNumber and pageSize are required parameters");
+			}
+			var url = _api.url+"ordering/order?pageNumber="+opts.pageNumber+"&pageSize="+opts.pageSize;
+
+			if (opts.reference) url += "&reference="+opts.reference;
+			if (opts.customerReference) url += "&customerReference="+opts.customerReference;
+			if (opts.status) url += "&status="+opts.status;
+			if (opts.dateFrom) url += "&dateFrom="+opts.dateFrom;
+			if (opts.dateTo) url += "&dateTo="+opts.dateTo;
+
+			resolve(sendRequest("GET", url));
+		});
+	},
 }
 function sendRequest(type, url, body) {
 	var header = {
