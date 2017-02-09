@@ -56,6 +56,34 @@ Voxbone.prototype = {
 			resolve(sendRequest("GET", url));
 		});
 	},
+	listDidGroup: function(opts) {
+		return new Promise(function(resolve, reject) {
+			if (!opts || !opts.pageNumber || !opts.pageSize || !opts.countryCodeA3){
+				reject("countryCodeA3, pageNumber and pageSize are required parameters");
+			}
+			var url = _api.url+"inventory/didgroup?countryCodeA3="+opts.countryCodeA3+"&pageNumber="+opts.pageNumber+"&pageSize="+opts.pageSize;
+
+			if (opts.didGroupIds) {
+				opts.didGroupIds.forEach(function(didGroupId) {
+					url += "&didGroupIds="+didGroupId;
+				});
+			}
+			if (opts.featureIds) {
+				opts.featureIds.forEach(function(featureId) {
+					url += "&featureIds="+featureId;
+				});
+			}
+			if (opts.stateId) url += "&stateId="+opts.stateId;
+			if (opts.cityNamePattern) url += "&cityNamePattern="+opts.cityNamePattern;
+			if (opts.rateCenter) url += "&rateCenter="+opts.rateCenter;
+			if (opts.areaCode) url += "&areaCode="+opts.areaCode;
+			if (opts.didType) url += "&didType="+opts.didType;
+			if (opts.showEmpty) url += "&showEmpty="+opts.showEmpty;
+			if (opts.featureIds) url += "&featureIds="+opts.featureIds;
+
+			resolve(sendRequest("GET", url));
+		});
+	},
 	listCountries: function(opts) {
 		return new Promise(function(resolve, reject) {
 			if (!opts.pageNumber || !opts.pageSize){
@@ -74,7 +102,7 @@ Voxbone.prototype = {
 			if (!countryCodeA3){
 				reject("countryCodeA3 is required");
 			}
-			var url = _api.url+"inventory/country"+countryCodeA3+"/state";
+			var url = _api.url+"inventory/country/"+countryCodeA3+"/state";
 
 			resolve(sendRequest("GET", url));
 		});
