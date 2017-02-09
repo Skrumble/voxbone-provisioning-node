@@ -186,7 +186,7 @@ Voxbone.prototype = {
 			resolve(sendRequest("POST", url, body));
 		});
 	},
-	accountBalance: function(config) {
+	accountBalance: function() {
 		return new Promise(function(resolve, reject) {
 			var url = _api.url+"ordering/accountbalance";
 
@@ -201,6 +201,7 @@ Voxbone.prototype = {
 
 			if (config.customerReference) body.customerReference = config.customerReference;
 			if (config.description) body.description = config.description;
+
 			resolve(sendRequest("PUT", url, body));
 		});
 	},
@@ -249,22 +250,22 @@ Voxbone.prototype = {
 			resolve(sendRequest("POST", url, body));
 		});
 	},
-	deleteCart: function(config) {
+	deleteCart: function(cartIdentifier) {
 		return new Promise(function(resolve, reject) {
-			if (!opts.cartIdentifier){
+			if (cartIdentifier){
 				reject("cartIdentifier is a required parameter");
 			}
-			var url = _api.url+"ordering/cart/"+opts.cartIdentifier;
+			var url = _api.url+"ordering/cart/"+cartIdentifier;
 
 			resolve(sendRequest("DELETE", url));
 		});
 	},
-	checkoutCart: function(config) {
+	checkoutCart: function(cartIdentifier) {
 		return new Promise(function(resolve, reject) {
-			if (!opts.cartIdentifier){
+			if (cartIdentifier){
 				reject("cartIdentifier is a required parameter");
 			}
-			var url = _api.url+"ordering/cart/"+opts.cartIdentifier+"/checkout?cartIdentifier="+opts.cartIdentifier;
+			var url = _api.url+"ordering/cart/"+cartIdentifier+"/checkout?cartIdentifier="+cartIdentifier;
 
 			resolve(sendRequest("GET", url));
 		});
