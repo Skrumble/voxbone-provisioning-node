@@ -254,7 +254,7 @@ Voxbone.prototype = {
 	},
 	deleteCart: function(cartIdentifier) {
 		return new Promise(function(resolve, reject) {
-			if (cartIdentifier){
+			if (!cartIdentifier){
 				reject("cartIdentifier is a required parameter");
 			}
 			var url = _api.url+"ordering/cart/"+cartIdentifier;
@@ -264,7 +264,7 @@ Voxbone.prototype = {
 	},
 	checkoutCart: function(cartIdentifier) {
 		return new Promise(function(resolve, reject) {
-			if (cartIdentifier){
+			if (!cartIdentifier){
 				reject("cartIdentifier is a required parameter");
 			}
 			var url = _api.url+"ordering/cart/"+cartIdentifier+"/checkout?cartIdentifier="+cartIdentifier;
