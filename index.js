@@ -131,13 +131,15 @@ Voxbone.prototype = {
 			var url = _api.url+"configuration/voiceuri";
 
 			var body = {
-				voiceUriProtocol: uri.voiceUriProtocol,
-				uri: uri.uri
+				voiceUri: {
+					voiceUriProtocol: uri.voiceUriProtocol,
+					uri: uri.uri
+				}
 			};
 
-			if (uri.voiceUriId) body.voiceUriId = uri.voiceUriId;
-			if (uri.backupUriId) body.backupUriId = uri.backupUriId;
-			if (uri.description) body.description = uri.description;
+			if (uri.voiceUriId) body.voiceUri.voiceUriId = uri.voiceUriId;
+			if (uri.backupUriId) body.voiceUri.backupUriId = uri.backupUriId;
+			if (uri.description) body.voiceUri.description = uri.description;
 
 			resolve(sendRequest("PUT", url, body));
 		});

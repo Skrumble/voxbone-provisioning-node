@@ -1,5 +1,5 @@
 # Voxbone Provisioning Node Api
-The Voxbone Provisioning Node module will allow you to interface with Voxbone proviioning api
+The Voxbone Provisioning Node module will allow you to interface with Voxbone provioning api
 
 ## Instalation
 To install the Voxbone Provisioning node module and its dependencies run the following command:
