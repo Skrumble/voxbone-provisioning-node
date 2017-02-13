@@ -272,7 +272,7 @@ Voxbone.prototype = {
 			resolve(sendRequest("GET", url));
 		});
 	},
-	listOrder: function(config) {
+	listOrder: function(opts) {
 		return new Promise(function(resolve, reject) {
 			if (!opts.pageNumber || !opts.pageSize){
 				reject("pageNumber and pageSize are required parameters");
