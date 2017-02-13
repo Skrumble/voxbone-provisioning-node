@@ -5,7 +5,7 @@ var request = require('request-promise');
 var _api = {
   	user: '',
   	password: '',
-  	url : 'https://sandbox.voxbone.com/ws-voxbone/services/rest/'
+  	url : 'https://api.voxbone.com/ws-voxbone/services/rest/'
 };
 
 var _version = module.exports.version;
