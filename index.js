@@ -34,9 +34,9 @@ Voxbone.prototype = {
 					url += "&didIds="+didId;
 				});
 			}
-			if (opts.didgroupIds) {
-				opts.didgroupIds.forEach(function(didgroupId) {
-					url += "&didgroupIds="+didgroupId;
+			if (opts.didGroupIds) {
+				opts.didGroupIds.forEach(function(didgroupId) {
+					url += "&didGroupIds="+didgroupId;
 				});
 			}
 			if (opts.e164Pattern) url += "&e164Pattern="+opts.e164Pattern;
