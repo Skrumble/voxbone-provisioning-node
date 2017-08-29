@@ -1,17 +1,20 @@
-# Voxbone Provisioning Node Api
-The Voxbone Provisioning Node module will allow you to interface with Voxbone provioning api
+# Voxbone Provisioning Node 
+This Voxbone Provisioning module will allow you to interface with [Voxbone Provioning API](https://developers.voxbone.com/docs/v3/overview/)
 
-## Instalation
+## Installation
 To install the Voxbone Provisioning node module and its dependencies run the following command:
-```javascript
-'npm install git+https://github.com/DanielAudino/voxbone-provisioning-node.git'
+
+```sh
+npm install @skrumble/voxbone-provisioning-node
 ```
 
 ## Usage
 
 ### Create the voxbone instance:
 ```javascript
-var Voxbone = require('voxbone-provisioning-node')({user: '<Your Voxbone Username>', password: '<Your Voxbone Password>'})
+const Voxbone = require('@skrumble/voxbone-provisioning-node');
+
+let client = new Voxbone({ user: '<Your Voxbone Username>', password: '<Your Voxbone Password>' });
 ```
 
 ### listCountries 
@@ -20,28 +23,28 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.listCountries({pageNumber:"0", pageSize:"1"})
-  .then(function(countries) {
-	  console.log(countries);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.listCountries({ pageNumber:"0", pageSize:"1" })
+.then((countries) => {
+  console.log(countries);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### listDid 
 
-Voxbone API docs for parameter list and descriptions: https://developers.voxbone.com/docs/v3/inventory/
+Voxbone API docs for parameter list and descriptions: https://developers.client.com/docs/v3/inventory/
 
 Example:
 ```javascript
-Voxbone.listDid({pageNumber:"0", pageSize:"1"})
-  .then(function(dids) {
-	  console.log(dids);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.listDid({ pageNumber:"0", pageSize:"1" })
+.then((dids) => {
+  console.log(dids);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 
@@ -51,12 +54,20 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.listDidGroup({pageNumber:"0", pageSize:"20", countryCodeA3: country, stateId: state, cityNamePattern: city, didType: "GEOGRAPHIC"}).then(function(groups) {
-		console.log(groups);
-	})
-	.catch(function(err) {
-	    console.log(err);
-	});
+client.listDidGroup({
+  pageNumber:"0", 
+  pageSize:"20", 
+  countryCodeA3: country, 
+  stateId: state, 
+  cityNamePattern: city, 
+  didType: "GEOGRAPHIC"
+})
+.then((groups) => {
+  console.log(groups);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### listStates
@@ -65,13 +76,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.listStates(Country)
-  .then(function(states) {
-	  console.log(states);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.listStates(Country)
+.then((states) => {
+  console.log(states);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### listVoiceURI
@@ -80,13 +91,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.listVoiceURI(({pageNumber:"0", pageSize:"20"})
-  .then(function(uris) {
-	  console.log(uris);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.listVoiceURI({ pageNumber:"0", pageSize:"20" })
+.then((uris) => {
+  console.log(uris);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### createOrUpdateVoiceURI
@@ -95,13 +106,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.createOrUpdateVoiceURI({voiceUriProtocol:"SIP", uri: uri, description: description})
-  .then(function(response) {
-	  console.log(response);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.createOrUpdateVoiceURI({ voiceUriProtocol:"SIP", uri: uri, description: description })
+.then((response) => {
+  console.log(response);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### deleteVoiceURI
@@ -110,13 +121,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.deleteVoiceURI(uriId)
-  .then(function(response) {
-	  console.log(response);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.deleteVoiceURI(uriId)
+.then((response) => {
+  console.log(response);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### applyConfiguration
@@ -125,13 +136,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.applyConfiguration({didIds:["123", "124"], voiceUriId: uriId })
-  .then(function(response) {
-	  console.log(response);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.applyConfiguration({ didIds:["123", "124"], voiceUriId: uriId })
+.then((response) => {
+  console.log(response);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### accountBalance
@@ -140,13 +151,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.accountBalance()
-  .then(function(balance) {
-	  console.log(balance);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.accountBalance()
+.then((balance) => {
+  console.log(balance);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### createCart
@@ -155,13 +166,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.createCart({customerReference: reference, description: description}).then(function(cart) {
-  .then(function(cart) {
-	  console.log(cart);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.createCart({ customerReference: reference, description: description })
+.then((cart) => {
+  console.log(cart);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### addToCart
@@ -170,13 +181,19 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.addToCart({cartIdentifier: cartID, didCartItem: {"didGroupId" : groupId, "quantity" : "1"}}).then(function(cart) {
-  .then(function(cart) {
-	  console.log(cart);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.addToCart({
+  cartIdentifier: cartID, 
+  didCartItem: {
+  "didGroupId" : groupId, 
+  "quantity" : "1"
+  }
+});
+.then((cart) => {
+  console.log(cart);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### listCart
@@ -185,13 +202,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.listCart({pageNumber:"0", pageSize:"1"})
-  .then(function(cart) {
-	  console.log(cart);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.listCart({ pageNumber:"0", pageSize:"1" })
+.then((cart) => {
+  console.log(cart);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### removeFromCart
@@ -200,13 +217,17 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.removeFromCart({cartIdentifier:cartIdentifier, orderProductId:orderProductId, quantity:quantity})
-  .then(function(response) {
-	  console.log(response);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.removeFromCart({ 
+  cartIdentifier:cartIdentifier, 
+  orderProductId:orderProductId, 
+  quantity:quantity
+})
+.then((response) => {
+  console.log(response);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### deleteCart
@@ -215,13 +236,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.deleteCart(cartId)
-  .then(function(response) {
-	  console.log(response);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.deleteCart(cartId)
+.then((response) => {
+  console.log(response);
+})
+.catch((err) => {
+  console.log(err);
+});
 ```
 
 ### checkoutCart
@@ -230,13 +251,13 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.checkoutCart(cartIdentifier)
-  .then(function(cart) {
-	  console.log(cart);
-	})
-	.catch(function(err) {
+client.checkoutCart(cartIdentifier)
+  .then((cart) => {
+    console.log(cart);
+  })
+  .catch((err) => {
     console.log(err);
-	});
+  });
 ```
 
 ### listOrder
@@ -245,11 +266,11 @@ Voxbone API docs for parameter list and descriptions: https://developers.voxbone
 
 Example:
 ```javascript
-Voxbone.listOrder({pageNumber:"0", pageSize:"1"})
-  .then(function(orders) {
-	  console.log(orders);
-	})
-	.catch(function(err) {
-    console.log(err);
-	});
+client.listOrder({ pageNumber:"0", pageSize:"1" })
+.then((orders) => {
+  console.log(orders);
+})
+.catch(function(err) {
+  console.log(err);
+});
 ```

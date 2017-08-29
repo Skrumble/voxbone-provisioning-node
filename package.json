@@ -1,7 +1,7 @@
 {
   "name": "@skrumble/voxbone-provisioning-node",
-  "version": "1.0.0",
-  "description": "The Voxbone Node module will allow you to interface with Voxbone proviioning api",
+  "version": "1.0.1",
+  "description": "The Voxbone Node module will allow you to interface with Voxbone provisioning api",
   "main": "index.js",
   "author": "Daniel Audino <daniel@skrumble.com>",
   "contributors": [
