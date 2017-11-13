@@ -1,44 +1,51 @@
 'use strict';
 
-var request = require('request-promise');
+const request = require('request-promise');
 
-var _api = {
+let _api = {
   user: '',
   password: '',
   url: 'https://api.voxbone.com/ws-voxbone/services/rest/'
 };
 
-var _version = module.exports.version;
+let _version = module.exports.version;
 
-var Voxbone = function(opts) {
+let Voxbone = (opts) => {
   if (!(this instanceof Voxbone)) {
     return new Voxbone(opts);
   }
+
   _api.user = opts.user;
   _api.password = opts.password;
+
   if (typeof opts.url != 'undefined') {
     _api.url = opts.url;
   }
+
 };
 
 Voxbone.prototype = {
-  listDid: function(opts) {
-    return new Promise(function(resolve, reject) {
+  listDid(opts) {
+    return new Promise((resolve, reject) => {
+
       if (!opts || !opts.pageNumber || !opts.pageSize) {
         reject("pageNumber and pageSize are required parameters");
       }
-      var url = _api.url + "inventory/did?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
+
+      let url = _api.url + "inventory/did?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
 
       if (opts.didIds) {
         opts.didIds.forEach(function(didId) {
           url += "&didIds=" + didId;
         });
       }
+
       if (opts.didGroupIds) {
-        opts.didGroupIds.forEach(function(didgroupId) {
+        opts.didGroupIds.forEach((didgroupId) => {
           url += "&didGroupIds=" + didgroupId;
         });
       }
+
       if (opts.e164Pattern) url += "&e164Pattern=" + opts.e164Pattern;
       if (opts.regulationAddressId) url += "&regulationAddressId=" + opts.regulationAddressId;
       if (opts.voiceUriId) url += "&voiceUriId=" + opts.voiceUriId;
@@ -56,23 +63,26 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
-  listDidGroup: function(opts) {
-    return new Promise(function(resolve, reject) {
+  listDidGroup(opts) {
+    return new Promise((resolve, reject) => {
       if (!opts || !opts.pageNumber || !opts.pageSize || !opts.countryCodeA3) {
         reject("countryCodeA3, pageNumber and pageSize are required parameters");
       }
-      var url = _api.url + "inventory/didgroup?countryCodeA3=" + opts.countryCodeA3 + "&pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
+
+      let url = _api.url + "inventory/didgroup?countryCodeA3=" + opts.countryCodeA3 + "&pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
 
       if (opts.didGroupIds) {
-        opts.didGroupIds.forEach(function(didGroupId) {
+        opts.didGroupIds.forEach((didGroupId) => {
           url += "&didGroupIds=" + didGroupId;
         });
       }
+
       if (opts.featureIds) {
-        opts.featureIds.forEach(function(featureId) {
+        opts.featureIds.forEach((featureId) => {
           url += "&featureIds=" + featureId;
         });
       }
+
       if (opts.stateId) url += "&stateId=" + opts.stateId;
       if (opts.cityNamePattern) url += "&cityNamePattern=" + opts.cityNamePattern;
       if (opts.rateCenter) url += "&rateCenter=" + opts.rateCenter;
@@ -84,12 +94,14 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
-  listCountries: function(opts) {
-    return new Promise(function(resolve, reject) {
+
+  listCountries(opts) {
+    return new Promise((resolve, reject) => {
       if (!opts.pageNumber || !opts.pageSize) {
         reject("pageNumber and pageSize are required parameters");
       }
-      var url = _api.url + "inventory/country?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
+
+      let url = _api.url + "inventory/country?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
 
       if (opts.countryCodeA3) url += "&countryCodeA3=" + opts.countryCodeA3;
       if (opts.didType) url += "&didType=" + opts.didType;
@@ -97,8 +109,9 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
-  listStates: function(countryCodeA3) {
-    return new Promise(function(resolve, reject) {
+
+  listStates(countryCodeA3) {
+    return new Promise((resolve, reject) => {
       if (!countryCodeA3) {
         reject("countryCodeA3 is required");
       }
@@ -107,12 +120,14 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
-  listVoiceURI: function(opts) {
-    return new Promise(function(resolve, reject) {
+
+  listVoiceURI(opts) {
+    return new Promise((resolve, reject) => {
       if (!opts.pageNumber || !opts.pageSize) {
         reject("pageNumber and pageSize are required parameters");
       }
-      var url = _api.url + "configuration/voiceuri?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
+
+      let url = _api.url + "configuration/voiceuri?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
 
       if (opts.voiceUriId) url += "&voiceUriId=" + opts.voiceUriId;
       if (opts.backupUriId) url += "&backupUriId=" + opts.backupUriId;
@@ -123,14 +138,15 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
-  createOrUpdateVoiceURI: function(uri) {
-    return new Promise(function(resolve, reject) {
+  createOrUpdateVoiceURI(uri) {
+    return new Promise((resolve, reject) => {
       if (!uri.voiceUriProtocol || !uri.uri) {
         reject("voiceUriProtocol and uri are required parameters");
       }
-      var url = _api.url + "configuration/voiceuri";
 
-      var body = {
+      let url = _api.url + "configuration/voiceuri";
+
+      let body = {
         voiceUri: {
           voiceUriProtocol: uri.voiceUriProtocol,
           uri: uri.uri
@@ -144,24 +160,27 @@ Voxbone.prototype = {
       resolve(sendRequest("PUT", url, body));
     });
   },
-  deleteVoiceURI: function(uriId) {
-    return new Promise(function(resolve, reject) {
+
+  deleteVoiceURI(uriId) {
+    return new Promise((resolve, reject) => {
       if (!uriId) {
         reject("uriId is required");
       }
+
       var url = _api.url + "configuration/voiceuri/" + uriId;
 
       resolve(sendRequest("DELETE", url));
     });
   },
-  applyConfiguration: function(config) {
-    return new Promise(function(resolve, reject) {
+  applyConfiguration(config) {
+    return new Promise((resolve, reject) => {
       if (!config.didIds || !Array.isArray(config.didIds)) {
         reject("didIds is a required parameter and must be array");
       }
-      var url = _api.url + "configuration/configuration";
 
-      var body = {
+      let url = _api.url + "configuration/configuration";
+
+      let body = {
         didIds: config.didIds
       };
 
@@ -188,18 +207,18 @@ Voxbone.prototype = {
       resolve(sendRequest("POST", url, body));
     });
   },
-  accountBalance: function() {
-    return new Promise(function(resolve, reject) {
-      var url = _api.url + "ordering/accountbalance";
+  accountBalance() {
+    return new Promise((resolve, reject) => {
+      let url = _api.url + "ordering/accountbalance";
 
       resolve(sendRequest("GET", url));
     });
   },
-  createCart: function(config) {
-    return new Promise(function(resolve, reject) {
-      var url = _api.url + "ordering/cart";
+  createCart(config) {
+    return new Promise((resolve, reject) => {
+      let url = _api.url + "ordering/cart";
 
-      var body = {};
+      let body = {};
 
       if (config.customerReference) body.customerReference = config.customerReference;
       if (config.description) body.description = config.description;
@@ -207,14 +226,15 @@ Voxbone.prototype = {
       resolve(sendRequest("PUT", url, body));
     });
   },
-  addToCart: function(config) {
-    return new Promise(function(resolve, reject) {
+  addToCart(config) {
+    return new Promise((resolve, reject) => {
       if (!config.cartIdentifier) {
         reject("cartIdentifier is a required parameter");
       }
-      var url = _api.url + "ordering/cart/" + config.cartIdentifier + "/product";
 
-      var body = {};
+      let url = _api.url + "ordering/cart/" + config.cartIdentifier + "/product";
+
+      let body = {};
 
       if (config.didCartItem) body.didCartItem = config.didCartItem;
       if (config.capacityCartItem) body.capacityCartItem = config.capacityCartItem;
@@ -223,8 +243,8 @@ Voxbone.prototype = {
       resolve(sendRequest("POST", url, body));
     });
   },
-  listCart: function(config) {
-    return new Promise(function(resolve, reject) {
+  listCart(config) {
+    return new Promise((resolve, reject) => {
       if (!opts.pageNumber || !opts.pageSize) {
         reject("pageNumber and pageSize are required parameters");
       }
@@ -236,14 +256,15 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
-  removeFromCart: function(config) {
-    return new Promise(function(resolve, reject) {
+  removeFromCart(config) {
+    return new Promise((resolve, reject) => {
       if (!config.cartIdentifier || !config.orderProductId || !config.quantity) {
         reject("cartIdentifier, orderProductId and quantity are required parameters");
       }
-      var url = _api.url + "ordering/cart/" + config.cartIdentifier + "/product/" + config.orderProductId;
 
-      var body = {
+      let url = _api.url + "ordering/cart/" + config.cartIdentifier + "/product/" + config.orderProductId;
+
+      let body = {
         cartIdentifier: config.cartIdentifier,
         orderProductId: config.orderProductId,
         quantity: config.quantity
@@ -252,32 +273,37 @@ Voxbone.prototype = {
       resolve(sendRequest("POST", url, body));
     });
   },
-  deleteCart: function(cartIdentifier) {
-    return new Promise(function(resolve, reject) {
+  deleteCart(cartIdentifier) {
+    return new Promise((resolve, reject) => {
       if (!cartIdentifier) {
         reject("cartIdentifier is a required parameter");
       }
-      var url = _api.url + "ordering/cart/" + cartIdentifier;
+
+      let url = _api.url + "ordering/cart/" + cartIdentifier;
 
       resolve(sendRequest("DELETE", url));
     });
   },
-  checkoutCart: function(cartIdentifier) {
-    return new Promise(function(resolve, reject) {
+
+  checkoutCart(cartIdentifier) {
+    return new Promise((resolve, reject) => {
       if (!cartIdentifier) {
         reject("cartIdentifier is a required parameter");
       }
-      var url = _api.url + "ordering/cart/" + cartIdentifier + "/checkout?cartIdentifier=" + cartIdentifier;
+
+      let url = _api.url + "ordering/cart/" + cartIdentifier + "/checkout?cartIdentifier=" + cartIdentifier;
 
       resolve(sendRequest("GET", url));
     });
   },
-  listOrder: function(opts) {
-    return new Promise(function(resolve, reject) {
+
+  listOrder(opts) {
+    return new Promise((resolve, reject) => {
       if (!opts.pageNumber || !opts.pageSize) {
         reject("pageNumber and pageSize are required parameters");
       }
-      var url = _api.url + "ordering/order?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
+
+      let url = _api.url + "ordering/order?pageNumber=" + opts.pageNumber + "&pageSize=" + opts.pageSize;
 
       if (opts.reference) url += "&reference=" + opts.reference;
       if (opts.customerReference) url += "&customerReference=" + opts.customerReference;
@@ -291,15 +317,17 @@ Voxbone.prototype = {
 }
 
 function sendRequest(type, url, body) {
-  var header = {
+  let header = {
     "Content-type": "application/json",
     "Accept": "application/json"
-  }
-  var auth = {
+  };
+
+  let auth = {
     'user': _api.user,
     'pass': _api.password
-  }
-  var opts = {
+  };
+
+  let opts = {
     auth: auth,
     url: url,
     body: body,
@@ -307,7 +335,8 @@ function sendRequest(type, url, body) {
     headers: header,
     method: type.toUpperCase()
   };
-  return request(opts).catch(function(err) {
+
+  return request(opts).catch((err) => {
     return err.error;
   });
 }
