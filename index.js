@@ -314,6 +314,24 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
+  cancelDids: function(dids) {
+    return new Promise(function(resolve, reject) {
+      if (!dids){
+        reject("DID is required");
+      }
+      if(!Array.isArray(dids)) {
+        reject("DID must be an array");
+      }
+
+      const url = _api.url+"ordering/cancel";
+
+      const body = {
+        "didIds": dids
+      }
+
+      resolve(sendRequest("POST", url, body));
+    });
+  }
 }
 
 function sendRequest(type, url, body) {
