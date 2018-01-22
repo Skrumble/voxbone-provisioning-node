@@ -315,7 +315,7 @@ Voxbone.prototype = {
     });
   },
   cancelDids: function(dids) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       if (!dids){
         reject("DID is required");
       }
