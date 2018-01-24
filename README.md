@@ -274,3 +274,16 @@ client.listOrder({ pageNumber:"0", pageSize:"1" })
   console.log(err);
 });
 ```
+
+### cancelDids
+
+Voxbone API docs for parameter list and descriptions: https://developers.voxbone.com/docs/v3/ordering/
+
+Example:
+```javascript
+client.cancelDids([12345, 67890]).then((canceledDids) => {
+  console.log(canceledDids);
+}).catch(function(err) {
+  console.log(err);
+});
+```
