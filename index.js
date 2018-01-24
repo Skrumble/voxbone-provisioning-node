@@ -10,7 +10,7 @@ let _api = {
 
 let _version = module.exports.version;
 
-let Voxbone = (opts) => {
+var Voxbone = function(opts) {
   if (!(this instanceof Voxbone)) {
     return new Voxbone(opts);
   }
