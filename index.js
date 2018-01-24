@@ -314,7 +314,7 @@ Voxbone.prototype = {
       resolve(sendRequest("GET", url));
     });
   },
-  cancelDids: function(dids) {
+  cancelDids: (dids) => {
     return new Promise((resolve, reject) => {
       if (!dids){
         reject("DID is required");
@@ -323,7 +323,7 @@ Voxbone.prototype = {
         reject("DID must be an array");
       }
 
-      const url = _api.url+"ordering/cancel";
+      const url = `S{_api.url}ordering/cancel`;
 
       const body = {
         "didIds": dids
