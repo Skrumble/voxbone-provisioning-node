@@ -270,7 +270,7 @@ client.listOrder({ pageNumber:"0", pageSize:"1" })
 .then((orders) => {
   console.log(orders);
 })
-.catch(function(err) {
+.catch((err) => {
   console.log(err);
 });
 ```
@@ -283,7 +283,7 @@ Example:
 ```javascript
 client.cancelDids([12345, 67890]).then((canceledDids) => {
   console.log(canceledDids);
-}).catch(function(err) {
+}).catch((err) => {
   console.log(err);
 });
 ```
